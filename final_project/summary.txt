@@ -1,0 +1,8 @@
+[ 0 ] 프로젝트 생성 
+[ 0-1 ] sts4 새 프로젝트 생성
+- 빈 공간에 마우스 우클릭 > New > Spring Starter Project
+- Package 이름 변경 > Next > 필요한 디펜던시 생성 후 Finish
+
+[ 0-2 ] 생성되었다면 잘 돌아가도록 설정하기
+
+package.json 명령어 : npm audit fix
