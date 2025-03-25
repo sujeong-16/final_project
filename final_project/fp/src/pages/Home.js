@@ -48,10 +48,19 @@ import { RegAttItems } from "./att/basic_item/RegAttItems";
 import { RegVacaItems } from "./att/basic_item/RegVacaItems";
 import { ByEmployee } from "./att/basic_item/ByEmployee";
 import { Attendance } from "./att/attendance/Attendance";
+import { AttendanceList } from "./att/attendance/AttendanceList";
+
+import { CommuStatus } from "./att/commute/CommuStatus";
+import { CommuStatusList } from "./att/commute/CommuStatusList";
+import { CommuRecords } from "./att/commute/CommuRecords";
+import { CommuLate } from "./att/commute/CommuLate";
+import { CommuLateList } from "./att/commute/CommuLateList";
+import { CommuAttStatus } from "./att/commute/CommuAttStatus";
+import { CommuAttStatusList } from "./att/commute/CommuAttStatusList";
 
 const Home = () => {
   const [open, setOpen] = React.useState(false); // open 초기값을 false로 설정
-  const [placement, setPlacement] = React.useState();	// 상담 드로어 위치 지정
+  const [placement, setPlacement] = React.useState(); // 상담 드로어 위치 지정
 
   const handleOpen = (key) => {
     setOpen(true);
@@ -75,10 +84,10 @@ const Home = () => {
           {/* defaultOpenKeys={["3"]} => 기본적으로 3번째 키를 열어두겠다는 뜻 */}
           <Sidenav.Body>
             {/* 
-				Nav => 상단 네비게이션 바
-				Nav.Item => 일반 버튼(클릭하면 페이지 이동)
-				Nav.Menu => 드롭다운 형태의 메뉴(하위 메뉴 포함 가능)
-			*/}
+              Nav => 상단 네비게이션 바
+              Nav.Item => 일반 버튼(클릭하면 페이지 이동)
+              Nav.Menu => 드롭다운 형태의 메뉴(하위 메뉴 포함 가능)
+            */}
             <Nav defaultActiveKey="1">
               <Nav.Item eventKey="100" icon={<Icon as={TreemapIcon} />}>
                 대시보드
@@ -172,10 +181,20 @@ const Home = () => {
                   >
                     근태항목등록
                   </Nav.Item>
-                  <Nav.Item eventKey="912" className="dot" as={Link} to="/regVacaItems">
+                  <Nav.Item
+                    eventKey="912"
+                    className="dot"
+                    as={Link}
+                    to="/regVacaItems"
+                  >
                     휴가항목등록
                   </Nav.Item>
-                  <Nav.Item eventKey="913" className="dot" as={Link} to="/byEmp">
+                  <Nav.Item
+                    eventKey="913"
+                    className="dot"
+                    as={Link}
+                    to="/byEmp"
+                  >
                     사원별휴가일수조회
                   </Nav.Item>
                 </Nav.Menu>
@@ -185,38 +204,52 @@ const Home = () => {
                   title="근태"
                   placement="rightStart"
                 >
-                  <Nav.Item eventKey="921" className="dot">
-                    근태
-                  </Nav.Item>
-                  <Nav.Item eventKey="922" className="dot" as={Link} to="/att">
+                  <Nav.Item eventKey="921" className="dot" as={Link} to="/att">
                     근태관리
                   </Nav.Item>
-                  <Nav.Item eventKey="923" className="dot">
+                  <Nav.Item eventKey="922" className="dot" as={Link} to="/attList">
                     근태현황
                   </Nav.Item>
                 </Nav.Menu>
-                {/* <Nav.Menu
+                <Nav.Menu
                   eventKey="930"
                   trigger="hover"
                   title="출/퇴근(사원)"
                   placement="rightStart"
                 >
-                  <Nav.Item eventKey="931" className="dot">
-                    출/퇴근반영기준
-                  </Nav.Item>
-                  <Nav.Item eventKey="932" className="dot">
+                  <Nav.Item
+                    eventKey="931"
+                    className="dot"
+                    as={Link}
+                    to="/commuRecords"
+                  >
                     출/퇴근기록부(사원)
                   </Nav.Item>
-                  <Nav.Item eventKey="933" className="dot">
+                  <Nav.Item
+                    eventKey="932"
+                    className="dot"
+                    as={Link}
+                    to="/commuStatus"
+                  >
                     출/퇴근현황(사원)
                   </Nav.Item>
-                  <Nav.Item eventKey="934" className="dot">
+                  <Nav.Item
+                    eventKey="933"
+                    className="dot"
+                    as={Link}
+                    to="/commuLate"
+                  >
                     지각현황(사원)
                   </Nav.Item>
-                  <Nav.Item eventKey="935" className="dot">
-                    출/퇴근/근태현황(사원)
+                  <Nav.Item
+                    eventKey="934"
+                    className="dot"
+                    as={Link}
+                    to="/commuAttStatus"
+                  >
+                    출퇴근/근태현황(사원)
                   </Nav.Item>
-                </Nav.Menu> */}
+                </Nav.Menu>
               </Nav.Menu>
 
               <Nav.Menu
@@ -281,16 +314,40 @@ const Home = () => {
           <Routes>
             <Route path="/home" /> {/* 메인화면 */}
             {/* 근태 */}
-            <Route path="/regAttItems" element={<RegAttItems />} /> {/* 기본-근태항목등록 */}
-            <Route path="/regVacaItems" element={<RegVacaItems />} /> {/* 기본-휴가항목등록 */}
-            <Route path="/byEmp" element={<ByEmployee />} /> {/* 기본-사원별휴가일수조회 */}
+            <Route path="/regAttItems" element={<RegAttItems />} />{" "}
+            {/* 기본-근태항목등록 */}
+            <Route path="/regVacaItems" element={<RegVacaItems />} />{" "}
+            {/* 기본-휴가항목등록 */}
+            <Route path="/byEmp" element={<ByEmployee />} />{" "}
+            {/* 기본-사원별휴가일수조회 */}
             <Route path="/att" element={<Attendance />} /> {/* 근태-근태관리 */}
+            <Route path="/attList" element={<AttendanceList />} />{" "}
+            {/* 근태-근태현황 */}
+            <Route path="/commuStatus" element={<CommuStatus />} />{" "}
+            {/* 출퇴근-출퇴근현황 */}
+            <Route path="/commuStatusList" element={<CommuStatusList />} />{" "}
+            {/* 출퇴근-출퇴근현황 리스트 */}
+            <Route path="/commuRecords" element={<CommuRecords />} />{" "}
+            {/* 출퇴근-출퇴근기록부 */}
+            <Route path="/commuRecords" element={<CommuRecords />} />{" "}
+            {/* 출퇴근-출퇴근기록부 리스트 */}
+            <Route path="/commuLate" element={<CommuLate />} />{" "}
+            {/* 출퇴근-지각현황 */}
+            <Route path="/commuLateList" element={<CommuLateList />} />{" "}
+            {/* 출퇴근-지각현황 리스트 */}
+            <Route path="/commuAttStatus" element={<CommuAttStatus />} />{" "}
+            {/* 출퇴근-출퇴근/근태현황 */}
+            <Route
+              path="/commuAttStatusList"
+              element={<CommuAttStatusList />}
+            />{" "}
+            {/* 출퇴근-출퇴근/근태현황 리스트 */}
           </Routes>
         </Content>
 
         <Footer></Footer>
       </Container>
-	  {/*
+      {/*
 	  	Drawer => 우측에서 나오는 패널
 		open={open} => open 상태가 t면 열림
 		placement={"right"} => 오른쪽에서 나타남

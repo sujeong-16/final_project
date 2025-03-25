@@ -1,52 +1,19 @@
 import React from "react";
-import { Button, Form, Modal, Table } from "rsuite";
+import { Button, Modal, Table } from "rsuite";
 import "../../../css/att.css";
-import { AttItem } from "../../../components/AttItem";
+import { Employee } from "../../../components/Employee";
+import att from "../../../components/att.png";
 
 const { Column, HeaderCell, Cell } = Table;
-let attData = AttItem();
+let data = Employee();
 
+// 근태조회
 export const Attendance = () => {
-  // 테이블
-  const [sortColumn, setSortColumn] = React.useState();
-  const [sortType, setSortType] = React.useState();
-  const [loading, setLoading] = React.useState(false);
 
   // 모달창
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
-
-  // 항목 테이블
-  // const getData = () => {
-  //   if (sortColumn && sortType) {
-  //     return data.sort((a, b) => {
-  //       let x = a[sortColumn];
-  //       let y = b[sortColumn];
-  //       if (typeof x === "string") {
-  //         x = x.charCodeAt();
-  //       }
-  //       if (typeof y === "string") {
-  //         y = y.charCodeAt();
-  //       }
-  //       if (sortType === "asc") {
-  //         return x - y;
-  //       } else {
-  //         return y - x;
-  //       }
-  //     });
-  //   }
-  //   return data;
-  // };
-
-  const handleSortColumn = (sortColumn, sortType) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSortColumn(sortColumn);
-      setSortType(sortType);
-    }, 500);
-  };
 
   return (
     <div className="attItems">
@@ -57,46 +24,42 @@ export const Attendance = () => {
         <div
           style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "12px" }}
         >
-          근태관리
+          근태조회
         </div>
       </div>
 
       <Table
         autoHeight
-        key={attData}
-        sortColumn={sortColumn}
-        sortType={sortType}
-        onSortColumn={handleSortColumn}
-        loading={loading}
+        data={data}
       >
         <Column width={100} align="center">
           <HeaderCell>근태번호</HeaderCell>
-          <Cell>30100</Cell>
+          <Cell dataKey="e_regDate" />
         </Column>
 
-        <Column width={200} fixed>
+        <Column width={100} align="center">
           <HeaderCell>사원명</HeaderCell>
-          <Cell>윤지헌</Cell>
+          <Cell dataKey="e_name" />
         </Column>
 
-        <Column width={100}>
+        <Column width={100} align="center">
           <HeaderCell>근태코드</HeaderCell>
-          <Cell>2024 연차</Cell>
+          <Cell dataKey="e_attCode" />
         </Column>
-
-        <Column width={90}>
+        
+        <Column width={100} align="center">
           <HeaderCell>근태수</HeaderCell>
-          <Cell>1</Cell>
+          <Cell dataKey="e_att" />
         </Column>
 
-        <Column width={100}>
+        <Column width={100} align="center">
           <HeaderCell>휴가명</HeaderCell>
-          <Cell>2024 연차</Cell>
+          <Cell dataKey="e_attCode" />
         </Column>
-
-        <Column width={100}>
+        
+        <Column width={100} align="center">
           <HeaderCell>적요</HeaderCell>
-          <Cell>2024.11.24 연차</Cell>
+          <Cell dataKey="e_text" />
         </Column>
       </Table>
 
@@ -110,34 +73,14 @@ export const Attendance = () => {
           <Modal.Title>근태항목등록</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <h6 style={{ marginBottom: "10px" }}>근태항목등록</h6>
-          <Form>
-            <Form.Group
-              controlId="attId"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>
-                근태코드
-              </Form.ControlLabel>
-              <Form.Control name="attId" />
-            </Form.Group>
-            <Form.Group
-              controlId="attName"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>
-                근태명
-              </Form.ControlLabel>
-              <Form.Control name="attName" />
-            </Form.Group>
-          </Form>
+          <img src={att} alt="근태추가" width={550}/>
         </Modal.Body>
         <Modal.Footer>
           <Button onClick={handleClose} appearance="subtle">
             닫기
           </Button>
           <Button onClick={handleClose} appearance="primary">
-            저장
+            추가
           </Button>
         </Modal.Footer>
       </Modal>

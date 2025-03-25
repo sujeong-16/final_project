@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import React from "react";
+// import { useLocation } from "react-router-dom";   // 현재 경로를 알수있음
 import { Button, Form, Modal, Table } from "rsuite";
 import "../../../css/att.css";
 import { AttItem } from "../../../components/AttItem";
@@ -7,7 +8,12 @@ import { AttItem } from "../../../components/AttItem";
 const { Column, HeaderCell, Cell } = Table;
 const data = AttItem(); // 데이터 반환
 
-export const RegAttItems = () => {
+export const RegAttItems = (className) => {
+
+  // 현재 URL 경로를 알 수 있음
+  // const location = useLocation();
+  // console.log(location.pathname);
+
   // 테이블
   const [sortColumn, setSortColumn] = React.useState();
   const [sortType, setSortType] = React.useState();
@@ -17,6 +23,11 @@ export const RegAttItems = () => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  // 중복확인
+  const [attOpen, setAttOpen] = React.useState(false);
+  const attIdCheck = () => setAttOpen(true);
+  const attClose = () => setAttOpen(false);
 
   // 항목 테이블
   const getData = () => {
@@ -116,6 +127,7 @@ export const RegAttItems = () => {
                 근태코드
               </Form.ControlLabel>
               <Form.Control name="attId" />
+              <Button onClick={attIdCheck}>중복확인</Button>
             </Form.Group>
             <Form.Group
               controlId="attName"
@@ -135,6 +147,21 @@ export const RegAttItems = () => {
           <Button onClick={handleClose} appearance="primary">
             저장
           </Button>
+        </Modal.Footer>
+      </Modal>
+
+      <Modal open={attOpen} onClose={attClose}>
+        <Modal.Header>
+          <Modal.Title>중복확인</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          사용가능한 아이디입니다.
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={attClose} appearance="primary">
+            확인
+          </Button>
+
         </Modal.Footer>
       </Modal>
     </div>
