@@ -1,0 +1,15 @@
+/* #root {
+    margin: 0;
+    height: 100%;
+} */
+.hd {
+    background-color: #dda15e;
+    color: #fff;
+}
+.sidebar {
+    box-shadow: 3px 0 5px -5px #999;
+}
+.dot::before {
+    content: "•";
+    margin: 0 5px;
+}
