@@ -1,6 +1,7 @@
 import React from "react";
-import { Table } from "rsuite";
+import { Button, Form, Modal, Table } from "rsuite";
 import { Employee } from "../../../components/Employee";
+import commute from "../../../components/commute.png";
 
 const { Column, HeaderCell, Cell } = Table;
 const data = Employee(); // 데이터 반환
@@ -11,6 +12,11 @@ export const CommuRecords = (props) => {
   const [sortColumn, setSortColumn] = React.useState();
   const [sortType, setSortType] = React.useState();
   const [loading, setLoading] = React.useState(false);
+
+  // 모달창
+  const [open, setOpen] = React.useState(false);
+  const handleOpen = () => setOpen(true);
+  const handleClose = () => setOpen(false);
 
   // 항목 테이블
   const getData = () => {
@@ -94,6 +100,28 @@ export const CommuRecords = (props) => {
           <Cell dataKey="e_ternal" />
         </Column>
       </Table>
+
+      <Button variant="primary" className="addBtn" onClick={handleOpen}>
+        추가
+      </Button>
+
+      {/* 추가버튼 클릭했을 때, 모달창 */}
+      <Modal open={open} onClose={handleClose}>
+        <Modal.Header>
+          <Modal.Title>휴가항목등록</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <img src={commute} alt="출퇴근 기록추가" width={550}/>
+        </Modal.Body>
+        <Modal.Footer>
+          <Button onClick={handleClose} appearance="subtle">
+            닫기
+          </Button>
+          <Button onClick={handleClose} appearance="primary">
+            저장
+          </Button>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };

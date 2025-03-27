@@ -1,70 +1,51 @@
-# Getting Started with Create React App
+# Rsuite로 리액트 프로젝트 만들기
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+이 프로젝트는 [rsuitejs](https://rsuitejs.com/)로 프로젝트를 만들었습니다.
 
-## Available Scripts
+## 프로젝트를 실행하려면,
 
-In the project directory, you can run:
+프로젝트 경로로 이동한다음
+
+### `npm audit fix`
+
+프로젝트 구성을 바꿉니다.
 
 ### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
-
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+개발환경으로 프로젝트를 실행합니다.\
+브라우저에서 [http://localhost:3000](http://localhost:3000)경로로 보여줍니다.
 
 ### `npm test`
 
 Launches the test runner in the interactive watch mode.\
 See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
+## 리액트 + rsuitejs로 프로젝트 구성하는 방법,
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### `npx create-react-app {프로젝트명}`
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+프로젝트를 생성 후에 [package.json](../rsuite-ex/package.json)에서 "react"와 "react-dom"버전을 "^18.3.1"로 바꿉니다.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### `npm i react-router-dom`
 
-### `npm run eject`
+리액트 라우터를 설치합니다.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### `npm i rsuite --save`
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+[rsuitejs](https://rsuitejs.com/guide/usage/)를 설치합니다.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## 참조링크
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+https://rsuitejs.com/guide/usage/
 
-## Learn More
+### 컴포넌트
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+https://rsuitejs.com/components/overview/
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### 컨테이너 like <div>
 
-### Code Splitting
+https://rsuitejs.com/components/container/
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+#### 테이블 like <table>
 
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+https://rsuitejs.com/components/table/
