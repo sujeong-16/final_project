@@ -1,169 +1,84 @@
-/* eslint-disable react-hooks/rules-of-hooks */
-import React from "react";
+import React, { useState } from "react";
 // import { useLocation } from "react-router-dom";   // 현재 경로를 알수있음
-import { Button, Form, Modal, Table } from "rsuite";
-import "../../../css/att.css";
-import { AttItem } from "../../../components/AttItem";
+import { Button, Container } from "rsuite";
+// import "../../../css/att.css";
+import AttItemsTable from "../../../components/AttItemsTable";
+import SearchItems from "../../../components/SearchItems";
+import AttModal from "../../../components/AttModal";
+import { Navigate } from "react-router-dom";
 
-const { Column, HeaderCell, Cell } = Table;
-const data = AttItem(); // 데이터 반환
+export const RegAttItems = () => {
 
-export const RegAttItems = (className) => {
+  // 테이블에 들어갈 항목들의 제목을 미리 정해둔다.
+  const columns = [
+    { label: "근태코드", dataKey: "a_code", width: 100 },
+    { label: "근태명", dataKey: "a_name", width: 150 },
+    { label: "근태유형", dataKey: "a_type", width: 150 },
+    { label: "사용유무", dataKey: "a_use", width: 100 },
+    { label: "비고", dataKey: "a_note", width: 200 },
+  ];
+
+  const [searchTerm, setSearchTerm] = useState(""); // 검색어 상태 추가
+  
+  // 검색 요청 함수
+  const handleSearch = (term) => {
+    setSearchTerm(term); // 검색어 상태 업데이트
+  };
+
+  // 모달 상태를 부모에서 관리
+  // open이라는 상태 변수를 사용해서 모달이 열렸는지 닫혔는지를 관리함.
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    // console.log("모달 열기"); // 디버깅 로그
+    setOpen(true);
+  };
+  const handleClose = () => {
+    // console.log("모달 닫기"); // 디버깅 로그
+    setOpen(false);
+  };
 
   // 현재 URL 경로를 알 수 있음
   // const location = useLocation();
   // console.log(location.pathname);
 
-  // 테이블
-  const [sortColumn, setSortColumn] = React.useState();
-  const [sortType, setSortType] = React.useState();
-  const [loading, setLoading] = React.useState(false);
-
-  // 모달창
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  // 중복확인
-  const [attOpen, setAttOpen] = React.useState(false);
-  const attIdCheck = () => setAttOpen(true);
-  const attClose = () => setAttOpen(false);
-
-  // 항목 테이블
-  const getData = () => {
-    if (sortColumn && sortType) {
-      return data.sort((a, b) => {
-        let x = a[sortColumn];
-        let y = b[sortColumn];
-        if (typeof x === "string") {
-          x = x.charCodeAt();
-        }
-        if (typeof y === "string") {
-          y = y.charCodeAt();
-        }
-        if (sortType === "asc") {
-          return x - y;
+  // 글 삭제처리
+  const deleteAttItems = () => {
+    fetch("http://localhost:8081/erp/regAttItems", {
+      method: "PUT",
+    })
+      .then((res) => res.json()) // String 형은 .text() 로 받아야 한다.
+      .then((res) => {
+        if (res === "ok") {
+          alert("삭제되었습니다.");
+          Navigate("/regAttItems"); // true라면, 삭제버튼 누른 곳으로 이동.
         } else {
-          return y - x;
+          alert("삭제에 실패했습니다.");
         }
       });
-    }
-    return data;
-  };
-
-  const handleSortColumn = (sortColumn, sortType) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSortColumn(sortColumn);
-      setSortType(sortType);
-    }, 500);
   };
 
   return (
-    <div className="attItems">
-      {/* ✅ 상단 바 정렬 */}
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
-      >
-        <div
-          style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "12px" }}
-        >
+    <>
+      <Container className="attItems">
+        <Container className="title">
           근태항목등록
-        </div>
-      </div>
-
-      <Table
-        autoHeight
-        data={getData()}
-        sortColumn={sortColumn}
-        sortType={sortType}
-        onSortColumn={handleSortColumn}
-        loading={loading}
-      >
-        <Column width={100} align="center" sortable>
-          <HeaderCell>근태코드</HeaderCell>
-          <Cell dataKey="attId" />
-        </Column>
-
-        <Column width={200} fixed sortable>
-          <HeaderCell>근태명</HeaderCell>
-          <Cell dataKey="attName" />
-        </Column>
-
-        <Column width={100} sortable>
-          <HeaderCell>근태그룹</HeaderCell>
-          <Cell dataKey="attGroup" />
-        </Column>
-
-        <Column width={90} sortable>
-          <HeaderCell>근태유형</HeaderCell>
-          <Cell dataKey="attType" />
-        </Column>
-
-        <Column width={70} sortable>
-          <HeaderCell>사용</HeaderCell>
-          <Cell dataKey="attUse" />
-        </Column>
-      </Table>
-
-      <Button variant="primary" className="addBtn" onClick={handleOpen}>
-        추가
-      </Button>
-
-      {/* 추가버튼 클릭했을 때, 모달창 */}
-      <Modal open={open} onClose={handleClose}>
-        <Modal.Header>
-          <Modal.Title>근태항목등록</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h6 style={{ marginBottom: "10px" }}>근태항목등록</h6>
-          <Form>
-            <Form.Group
-              controlId="attId"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>
-                근태코드
-              </Form.ControlLabel>
-              <Form.Control name="attId" />
-              <Button onClick={attIdCheck}>중복확인</Button>
-            </Form.Group>
-            <Form.Group
-              controlId="attName"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>
-                근태명
-              </Form.ControlLabel>
-              <Form.Control name="attName" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose} appearance="subtle">
-            닫기
+          <SearchItems onSearch={handleSearch}/>
+        </Container>
+        <AttItemsTable
+          url={`http://localhost:8081/erp/regAttItems?search=${searchTerm}`}
+          columns={columns}
+        />
+        <Container style={{ display: "flex", flexDirection: "row" }}>
+          {/* <Button className="addBtn" onClick={deleteAttItems}>
+            삭제
+          </Button> */}
+          <Button className="addBtn" onClick={handleOpen}>
+            추가
           </Button>
-          <Button onClick={handleClose} appearance="primary">
-            저장
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      <Modal open={attOpen} onClose={attClose}>
-        <Modal.Header>
-          <Modal.Title>중복확인</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          사용가능한 아이디입니다.
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={attClose} appearance="primary">
-            확인
-          </Button>
-
-        </Modal.Footer>
-      </Modal>
-    </div>
+        </Container>
+        <AttModal open={open} onClose={handleClose} />
+        {/* 모달 상태와 닫기 함수를 props로 전달 */}
+      </Container>
+    </>
   );
 };

@@ -31,11 +31,29 @@
 	</properties>
 	<dependencies>
 		
+		<!-- JDBC -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jdbc</artifactId>
+		</dependency>
+		
 		<!-- JPA -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
+		
+		<!-- OAuth2 Client -->
+<!--		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>-->
+		
+		<!-- Spring Security-->
+<!--		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>-->
 		
 		<!-- WEB: 필수추가. 미추가시 @RequestMapping, ModelAndView를 인식못함 -->
 		<dependency>
@@ -50,6 +68,21 @@
 			<version>2.3.1</version>		<!-- 3.0.3 에러나므로 2.3.1로 수정 -->
 		</dependency>
 
+		<!-- MySql Driver -->
+		<dependency>
+			<groupId>com.mysql</groupId>
+			<artifactId>mysql-connector-j</artifactId>
+			<version>8.0.33</version>		<!--  버전추가 생략시 에러남 -->
+			<scope>runtime</scope>
+		</dependency>
+		
+		<!-- MariaDB -->
+		<dependency>
+			<groupId>org.mariadb.jdbc</groupId>
+			<artifactId>mariadb-java-client</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		
 		<!-- DevTools : 자동으로 어플리케이션 재시작 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -58,11 +91,11 @@
 			<optional>true</optional>
 		</dependency>
 		
-		<!-- oracle -->
+		<!-- 롬복 1) - 처음 생성시 선택을 안했어서 강제로 추가함 -->
 		<dependency>
-			<groupId>com.oracle.database.jdbc</groupId>
-			<artifactId>ojdbc11</artifactId>
-			<scope>runtime</scope>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<optional>true</optional>
 		</dependency>
 		
 		<dependency>
@@ -76,13 +109,55 @@
 			<version>3.0.4</version>
 			<scope>test</scope>
 		</dependency>
+		<dependency>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-test</artifactId>
+			<scope>test</scope>
+		</dependency>
 	</dependencies>
 
+	<!-- 롬복(2) - 롬복 추가 했을때 -->
+<!--
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+	-->
+	
+	<!-- 롬복(3) - 롬복 추가 했을때 -->
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>  <!-- 추가 -->
+				<configuration>
+					<source>1.8</source>  <!-- 추가 -->
+					<target>1.8</target>   <!-- 추가 -->
+					<annotationProcessorPaths>
+						<path>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+							<version>1.18.36</version> 
+						</path>
+					</annotationProcessorPaths>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>
+							<groupId>org.projectlombok</groupId>
+							<artifactId>lombok</artifactId>
+						</exclude>
+					</excludes>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>

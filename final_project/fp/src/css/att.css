@@ -2,10 +2,36 @@
     margin: 40px;
 }
 .addBtn {
-    margin: 24px 0;
-    padding: 10px 14px;
+    /* margin: 24px 0; */
+    width: 70px;
+    padding: 10px 0;
     border-radius: 5px;
     background-color: #dda15e;
     color: white;
     border: none;
+    margin-right: 10px;
+}
+
+/* Column {
+    display: flex;
+    align-content: "center";
+} */
+
+/* RegAttItems 파일 */
+.title {
+    display: flex;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 22px;
+    /* 타이틀과 검색창 나란히 */
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.col:hover {
+    cursor: "pointer";
+    color: "blue";
+    text-decoration: "underline";
+
 }

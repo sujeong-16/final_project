@@ -2,12 +2,6 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Button, ButtonToolbar, DateRangePicker, Form, Radio, RadioGroup } from "rsuite";
 
-const defaultFormValue = {
-  dateRangePicker: null,
-};
-const initFormValue = {
-  dateRangePicker: [new Date(), new Date()],
-};
 // 출/퇴근 현황
 export const CommuStatus = (props) => {
   return (

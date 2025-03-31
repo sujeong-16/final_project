@@ -46,7 +46,6 @@ import { Link, Route, Routes } from "react-router-dom";
 import "../css/Header.css";
 import { RegAttItems } from "./att/basic_item/RegAttItems";
 import { RegVacaItems } from "./att/basic_item/RegVacaItems";
-import { ByEmployee } from "./att/basic_item/ByEmployee";
 import { Attendance } from "./att/attendance/Attendance";
 import { AttendanceList } from "./att/attendance/AttendanceList";
 
@@ -189,14 +188,6 @@ const Home = () => {
                   >
                     휴가항목등록
                   </Nav.Item>
-                  <Nav.Item
-                    eventKey="913"
-                    className="dot"
-                    as={Link}
-                    to="/byEmp"
-                  >
-                    사원별휴가일수조회
-                  </Nav.Item>
                 </Nav.Menu>
                 <Nav.Menu
                   eventKey="920"
@@ -318,8 +309,6 @@ const Home = () => {
             {/* 기본-근태항목등록 */}
             <Route path="/regVacaItems" element={<RegVacaItems />} />{" "}
             {/* 기본-휴가항목등록 */}
-            <Route path="/byEmp" element={<ByEmployee />} />{" "}
-            {/* 기본-사원별휴가일수조회 */}
             <Route path="/att" element={<Attendance />} /> {/* 근태-근태관리 */}
             <Route path="/attList" element={<AttendanceList />} />{" "}
             {/* 근태-근태현황 */}

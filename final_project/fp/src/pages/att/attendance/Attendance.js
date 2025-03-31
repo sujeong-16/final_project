@@ -34,7 +34,7 @@ export const Attendance = () => {
       >
         <Column width={100} align="center">
           <HeaderCell>근태번호</HeaderCell>
-          <Cell dataKey="e_regDate" />
+          <Cell dataKey="e_regDate"></Cell>
         </Column>
 
         <Column width={100} align="center">
@@ -58,7 +58,7 @@ export const Attendance = () => {
         </Column>
         
         <Column width={100} align="center">
-          <HeaderCell>적요</HeaderCell>
+          <HeaderCell>비고</HeaderCell>
           <Cell dataKey="e_text" />
         </Column>
       </Table>

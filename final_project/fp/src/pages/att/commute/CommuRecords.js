@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Modal, Table } from "rsuite";
+import { Button, Modal, Table } from "rsuite";
 import { Employee } from "../../../components/Employee";
 import commute from "../../../components/commute.png";
 

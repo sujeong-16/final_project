@@ -8,6 +8,6 @@ public class FinalProjectApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(FinalProjectApplication.class, args);
-		System.out.println("▶ 스프링부트 스따뜨s");
+		System.out.println("▶ 파이널 프로젝트");
 	}
 }

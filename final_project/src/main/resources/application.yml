@@ -1,0 +1,37 @@
+# http port number(default 8080)
+server:
+  port: 8081
+# custom error page
+  error:
+    whitelabel:
+      enabled: false
+      
+# mapper.xml 위치 지정
+mybatis:
+  mapper-locations: mappers/**/*.xml
+  configuration:
+    map-underscore-to-camel-case: false
+
+# Mapper 로그레벨 설정
+logging:
+  level:
+    com:
+      atoz_develop:
+        mybatissample:
+          repository: TRACE
+
+# JPA SQL SHOW -> 있으면 편함
+#spring.jpa.database-platform=org.hibernate.dialect.Oracle12cDialect
+spring:
+  jpa:
+    database-platform: org.hibernate.dialect.MariaDBDialect
+    show-sql: true
+# spring.jpa.show-sql=true : 에러가 났을때 console 창에 어떤 sql이 오류 났는지 띄워줌
+
+# db 등 숨길 정보들을 담은 파일 연결
+# application-이름.properties으로 나눈 파일 연결 -> spring.profiles.include=이름
+  profiles:
+    include: db
+    active: db
+## ↳ active : 프로파일 활성화.
+## 탭 줬을 때 오류난다면, Window > Preferences > General > Editors > Text Editors 에서 Insert Spaces for tabs를 체크한 후 Ctrl+A Ctrl+Z로 다시 복붙하면 에러가 사라짐

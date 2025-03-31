@@ -1,0 +1,9 @@
+## .gitignore
+## 탭 줬을 때 오류난다면, Window > Preferences > General > Editors > Text Editors 에서 Insert Spaces for tabs를 체크한 후 Ctrl+A Ctrl+Z로 다시 복붙하면 에러가 사라짐
+# DB connection(MariaDB) - spring(context.xml)
+spring:
+    datasource:
+        driver-class-name: org.mariadb.jdbc.Driver
+        url: jdbc:mariadb://192.168.0.44:3306/yeomdb
+        username: erp_mdb
+        password: ict04

@@ -1,139 +1,50 @@
-import React from "react";
-import { Button, Form, Modal, Table } from "rsuite";
+import React, { useState } from "react";
+import { Button, Container } from "rsuite";
 import "../../../css/att.css";
-import { VacaItem } from "../../../components/VacaItem";
-
-const { Column, HeaderCell, Cell } = Table;
-const data = VacaItem(); // 데이터 반환
+import AttItemsTable from "../../../components/AttItemsTable";
+import SearchItems from "../../../components/SearchItems";
+import AttModal from "../../../components/AttModal";
 
 export const RegVacaItems = () => {
-  // 테이블
-  const [sortColumn, setSortColumn] = React.useState();
-  const [sortType, setSortType] = React.useState();
-  const [loading, setLoading] = React.useState(false);
-
-  // 모달창
-  const [open, setOpen] = React.useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
-
-  // 항목 테이블
-  const getData = () => {
-    if (sortColumn && sortType) {
-      return data.sort((a, b) => {
-        let x = a[sortColumn];
-        let y = b[sortColumn];
-        if (typeof x === "string") {
-          x = x.charCodeAt();
-        }
-        if (typeof y === "string") {
-          y = y.charCodeAt();
-        }
-        if (sortType === "asc") {
-          return x - y;
-        } else {
-          return y - x;
-        }
-      });
-    }
-    return data;
-  };
-
-  const handleSortColumn = (sortColumn, sortType) => {
-    setLoading(true);
-    setTimeout(() => {
-      setLoading(false);
-      setSortColumn(sortColumn);
-      setSortType(sortType);
-    }, 500);
-  };
+  const columns = [
+    { label: "휴가코드", dataKey: "v_code", width: 100 },
+    { label: "휴가명", dataKey: "v_name", width: 150 },
+    { label: "사용기간", dataKey: "v_periode", width: 200 },
+    { label: "사용유무", dataKey: "v_use", width: 90 },
+    { label: "비고", dataKey: "v_note", width: 210 },
+  ];
+  
+    // 모달 상태를 부모에서 관리
+    // open이라는 상태 변수를 사용해서 모달이 열렸는지 닫혔는지를 관리함.
+    const [open, setOpen] = useState(false);
+    const handleOpen = () => {
+      // console.log("모달 열기"); // 디버깅 로그
+      setOpen(true);
+    };
+    const handleClose = () => {
+      // console.log("모달 닫기"); // 디버깅 로그
+      setOpen(false);
+    };
 
   return (
-    <div className="attItems">
-      {/* ✅ 상단 바 정렬 */}
-      <div
-        style={{ display: "flex", alignItems: "center", marginBottom: "10px" }}
-      >
-        <div
-          style={{ fontSize: "18px", fontWeight: "bold", marginBottom: "12px" }}
-        >
-          휴가항목등록
-        </div>
-      </div>
+    <Container className="attItems">
+      <Container className="title">
+        휴가항목등록
+        <SearchItems />
+      </Container>
 
-      <Table
-        autoHeight
-        data={getData()}
-        sortColumn={sortColumn}
-        sortType={sortType}
-        onSortColumn={handleSortColumn}
-        loading={loading}
-      >
-        <Column width={100} align="center" sortable>
-          <HeaderCell>휴가코드</HeaderCell>
-          <Cell dataKey="vacaId" />
-        </Column>
-
-        <Column width={200} fixed sortable>
-          <HeaderCell>휴가명</HeaderCell>
-          <Cell dataKey="vacaName" />
-        </Column>
-
-        <Column width={300} sortable>
-          <HeaderCell>사용기간</HeaderCell>
-          <Cell dataKey="vacaGroup" />
-        </Column>
-
-        <Column width={70} sortable>
-          <HeaderCell>사용</HeaderCell>
-          <Cell dataKey="vacaUse" />
-        </Column>
-      </Table>
-
-      <Button
-        variant="primary"
-        className="addBtn"
-        onClick={handleOpen}
-      >
-        추가
-      </Button>
-
-      {/* 추가버튼 클릭했을 때, 모달창 */}
-      <Modal
-        open={open}
-        onClose={handleClose}
-      >
-        <Modal.Header>
-          <Modal.Title>휴가항목등록</Modal.Title>
-        </Modal.Header>
-        <Modal.Body>
-          <h6 style={{ marginBottom: "10px" }}>휴가항목등록</h6>
-          <Form>
-            <Form.Group
-              controlId="vacaId"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>휴가코드</Form.ControlLabel>
-              <Form.Control name="vacaId" />
-            </Form.Group>
-            <Form.Group
-              controlId="vacaName"
-              style={{ display: "flex", alignItems: "center", gap: "8px" }}
-            >
-              <Form.ControlLabel style={{ marginTop: "3px" }}>휴가명</Form.ControlLabel>
-              <Form.Control name="vacaName" />
-            </Form.Group>
-          </Form>
-        </Modal.Body>
-        <Modal.Footer>
-          <Button onClick={handleClose} appearance="subtle">
-            닫기
+      <AttItemsTable
+          url="http://localhost:8081/erp/regVacaItems"
+          columns={columns}
+        />
+      <Container style={{ display:"flex", flexDirection:"row" }}>
+          {/* <Button className="addBtn" style={{ marginRight: "10px" }}>삭제</Button> */}
+          <Button className="addBtn" onClick={handleOpen}>
+            추가
           </Button>
-          <Button onClick={handleClose} appearance="primary">
-            저장
-          </Button>
-        </Modal.Footer>
-      </Modal>
-    </div>
+        </Container>
+        <AttModal open={open} onClose={handleClose} />
+        {/* 모달 상태와 닫기 함수를 props로 전달 */}
+    </Container>
   );
 };
