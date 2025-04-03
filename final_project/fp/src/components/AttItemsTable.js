@@ -2,6 +2,7 @@ import "../css/att.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { Button, Input, Modal, Table } from "rsuite";
+// import { AttUpdateModal } from "./AttUpdateModal";
 
 const { Column, HeaderCell, Cell } = Table;
 
@@ -20,18 +21,17 @@ const AttItemsTable = ({ url, columns }) => {
   const [attList, setAttList] = useState([]);
   const [sortColumn, setSortColumn] = useState(null); // sortColumn: 어떤 컬럼(이름,나이 등)으로 정렬할지 확인하는 변수
   const [sortType, setSortType] = useState(null); // 오름차순인지 내림차순인지 확인하는 변수
-  const [isModalOpen, setIsModalOpen] = useState(false);  // 모달창
+  const [isModalOpen, setIsModalOpen] = useState(false); // 모달창
   const [editingRow, setEditingRow] = useState(null); // 수정 중인 행 데이터
 
+  // 삭제 관련
   const propsParam = useParams();
   const a_code = propsParam.a_code;
-
   const navigate = useNavigate();
-
 
   // fetch(url)을 통해 데이터를 서버에서 가져와 attList에 저장
   useEffect(() => {
-    // fetch("http://localhost:8081/erp/regAttItems", { method: "GET" })
+    // fetch("http://localhost:8081/main/regAttItems", { method: "GET" })
     // url : 컴포넌트를 선언한 곳에서 지정한 url 에서 데이터를 가져옴.
     fetch(url, { method: "GET" }) // 서버에서 데이터를 받아옴
       .then((res) => res.json()) // 가져온 데이터를 컴퓨터가 이해할 수 있도록, 응답을 JSON으로 변환
@@ -42,7 +42,6 @@ const AttItemsTable = ({ url, columns }) => {
       .catch((error) => console.error("데이터를 불러오지 못했습니다:", error));
   }, [url]);
   // [url] : url이 변경될 때마다 fetch 실행
-
 
   // 테이블 정렬 함수. 특정 컬럼을 클릭하면 해당 컬럼을 기준으로 정렬함(오름차순/내림차순)
   const getSortedData = () => {
@@ -70,11 +69,6 @@ const AttItemsTable = ({ url, columns }) => {
     setIsModalOpen(true);
   };
 
-  // 삭제 버튼 클릭 → 해당 행 삭제
-  const handleDelete = (id) => {
-    
-  };
-
   // 입력값 변경
   const handleChange = (key, value) => {
     setEditingRow((prev) => ({ ...prev, [key]: value }));
@@ -83,27 +77,35 @@ const AttItemsTable = ({ url, columns }) => {
   // 저장 버튼 클릭 → 변경 사항 적용
   const handleSave = () => {
     setAttList((prevList) =>
-      prevList.map((row) => (row.id === editingRow.id ? { ...editingRow } : row))
+      prevList.map((row) =>
+        row.id === editingRow.id ? { ...editingRow } : row
+      )
     );
     setIsModalOpen(false);
   };
 
   // 삭제
-  const deleteRow = (id) => {
-    fetch(`http://localhost:8081/erp/regAttItems/${id}`, {  // 선택한 행의 id를 전달
-      method: 'DELETE',
+  const deleteAtt = () => {
+
+    if (!a_code) {
+      alert("삭제할 항목의 코드가 없습니다.");
+      return;
+    }
+
+    fetch(`http://localhost:8081/main/deleteAttItems/${a_code}`, {
+      method: "DELETE",
     })
-    .then(res => res.text())  // String 형은 .text() 로 받아야 한다.
-    .then(res => {
-      if(res === "ok") {
-        alert("삭제되었습니다.");
-        setAttList((prevList) => prevList.filter((row) => row.id !== id));
-      } else {
-        alert("삭제에 실패했습니다.");
-      }
-    })
-    .catch((error) => console.error("삭제 중 오류 발생:", error));
-  }
+      .then((res) => res.text()) // String 형은 .text() 로 받아야 한다.
+      .then((res) => {
+        if (res === "ok") {
+          alert("삭제되었습니다.");
+          navigate('/regVacaItems');   // true라면, 게시글 목록으로 이동
+        } else {
+          alert("삭제에 실패했습니다.");
+        }
+      })
+      .catch((error) => console.error("삭제 중 오류 발생:", error));
+  };
 
   return (
     <>
@@ -123,7 +125,6 @@ const AttItemsTable = ({ url, columns }) => {
           console.log(rowData);
         }}
       >
-
         {/* 동적으로 컬럼 생성
       true && expression 형식 : 조건이 참이면 && 뒤의 요소가 출력됨*/}
         {columns &&
@@ -133,16 +134,25 @@ const AttItemsTable = ({ url, columns }) => {
               <Cell dataKey={col.dataKey} />
             </Column>
           ))}
-             {/* 버튼 컬럼 추가 */}
+        {/* 버튼 컬럼 추가 */}
         <Column width={100} align="center">
           <HeaderCell>작업</HeaderCell>
           <Cell>
             {(rowData) => (
               <>
-                <Button size="xs" appearance="primary" onClick={() => handleEdit(rowData)}>
+                <Button
+                  size="xs"
+                  appearance="primary"
+                  onClick={() => handleEdit(rowData)}
+                >
                   수정
                 </Button>
-                <Button size="xs" appearance="ghost" color="red" onClick={() => deleteRow(rowData.id)}>
+                <Button
+                  size="xs"
+                  appearance="ghost"
+                  color="red"
+                  onClick={() => deleteAtt(rowData.a_code)}  // 클릭할 때 해당 a_code 전달
+                >
                   삭제
                 </Button>
               </>
@@ -151,8 +161,9 @@ const AttItemsTable = ({ url, columns }) => {
         </Column>
       </Table>
 
-       {/* 수정 모달 */}
-       <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
+      {/* <AttUpdateModal /> */}
+
+      <Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
         <Modal.Header>
           <Modal.Title>데이터 수정</Modal.Title>
         </Modal.Header>

@@ -3,12 +3,12 @@ import { Button, Container } from "rsuite";
 import "../../../css/att.css";
 import AttItemsTable from "../../../components/AttItemsTable";
 import SearchItems from "../../../components/SearchItems";
-import AttModal from "../../../components/AttModal";
+import AttModal from "../../../components/AttModal2";
 
 export const RegVacaItems = () => {
   const columns = [
     { label: "휴가코드", dataKey: "v_code", width: 100 },
-    { label: "휴가명", dataKey: "v_name", width: 150 },
+    { label: "휴가명", dataKey: "v_name", width: 100 },
     { label: "사용기간", dataKey: "v_periode", width: 200 },
     { label: "사용유무", dataKey: "v_use", width: 90 },
     { label: "비고", dataKey: "v_note", width: 210 },
@@ -34,7 +34,7 @@ export const RegVacaItems = () => {
       </Container>
 
       <AttItemsTable
-          url="http://localhost:8081/erp/regVacaItems"
+          url="http://localhost:8081/main/regVacaItems"
           columns={columns}
         />
       <Container style={{ display:"flex", flexDirection:"row" }}>

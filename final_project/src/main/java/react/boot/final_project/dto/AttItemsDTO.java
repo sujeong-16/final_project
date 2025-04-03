@@ -23,7 +23,8 @@ public class AttItemsDTO {
 	// 근태항목등록 dto
 	@Id
 	@Column(name="a_code")
-	private String a_code;			// 근태코드, PK
+	private int a_code;			// 근태코드, PK
+	private int a_listNo;		// 근태 게시글번호(자동증가)
 	private String a_name;		// 근태명, UK
 	private String a_type;			// 근태유형
 	private String a_use;			// 근태 사용여부(Y/N)

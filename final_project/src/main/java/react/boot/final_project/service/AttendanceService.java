@@ -16,10 +16,29 @@ public class AttendanceService {
 	@Autowired
 	private AttMapper attMapper;
 	
-	// 기본사항등록 - 근태 항목 등록
+	// 기본사항등록 - 근태 항목 리스트
 	@Transactional
 	public List<AttItemsDTO> regAttList() {
+	    System.out.println("▶ 근태서비스 - 근태 항목 리스트");
 		return attMapper.regAttList();
+	}
+	// 기본사항등록 - 근태 항목 등록
+	@Transactional	// 서비스 함수가 종료될 때, commit 할 지 rollback 할 지 트랜잭션 관리하겠다.
+	public int saveAtt(AttItemsDTO dto) {
+	    System.out.println("▶ 근태서비스 - 근태 항목 등록: " + dto);
+		return attMapper.insertAttItems(dto);	// myBatis I,U,D의 리턴타입이 int(1:성공, 0:실패)
+	}
+	// 기본사항등록 - 근태 항목 삭제
+	@Transactional
+	public int deleteAttItems(int a_code) {
+	    System.out.println("▶ 근태서비스 - 근태 항목 삭제: " + a_code);
+	    return attMapper.deleteAttItems(a_code);
+	}
+	// 기본사항등록 - 근태 항목 수정
+	@Transactional
+	public int updateAttItems(int a_code, AttItemsDTO dto) {
+	    System.out.println("▶ 근태서비스 - 근태 항목 수정: " + a_code);
+	    return attMapper.updateAttItems(dto);
 	}
 
 	// 기본사항등록 - 휴가 항목 등록
@@ -27,23 +46,13 @@ public class AttendanceService {
 	public List<VacaItemsDTO> regVacaList() {
 		return attMapper.regVacaList();
 	}
-
-	// 기본사항등록 - 근태 항목 등록 추가
-	@Transactional	// 서비스 함수가 종료될 때, commit 할 지 rollback 할 지 트랜잭션 관리하겠다.
-	public int saveAtt(AttItemsDTO dto) {
-		return attMapper.insertAtt(dto);	// myBatis I,U,D의 리턴타입이 int(1:성공, 0:실패)
-	}
 	
 	// 기본사항등록 - 근태 항목 등록; 검색
 	public AttItemsDTO attSearch(String a_keywords) {
 		return attMapper.attSearch(a_keywords);
 	}
 
-	// 항목 등록 삭제
-	@Transactional
-	public int deleteAttItems(String a_code) {
-		return attMapper.deleteAttItems(a_code);
-	}
+
 //    public boolean deleteAttItems(String aCode) {
 //        int result = attMapper.deleteAttItems(aCode);
 //        return result > 0; // 삭제된 행이 있으면 true, 없으면 false 반환

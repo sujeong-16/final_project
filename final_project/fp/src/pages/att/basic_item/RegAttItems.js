@@ -4,8 +4,7 @@ import { Button, Container } from "rsuite";
 // import "../../../css/att.css";
 import AttItemsTable from "../../../components/AttItemsTable";
 import SearchItems from "../../../components/SearchItems";
-import AttModal from "../../../components/AttModal";
-import { Navigate } from "react-router-dom";
+import AttModal from "../../../components/AttModal2";
 
 export const RegAttItems = () => {
 
@@ -41,21 +40,6 @@ export const RegAttItems = () => {
   // const location = useLocation();
   // console.log(location.pathname);
 
-  // 글 삭제처리
-  const deleteAttItems = () => {
-    fetch("http://localhost:8081/erp/regAttItems", {
-      method: "PUT",
-    })
-      .then((res) => res.json()) // String 형은 .text() 로 받아야 한다.
-      .then((res) => {
-        if (res === "ok") {
-          alert("삭제되었습니다.");
-          Navigate("/regAttItems"); // true라면, 삭제버튼 누른 곳으로 이동.
-        } else {
-          alert("삭제에 실패했습니다.");
-        }
-      });
-  };
 
   return (
     <>
@@ -65,7 +49,7 @@ export const RegAttItems = () => {
           <SearchItems onSearch={handleSearch}/>
         </Container>
         <AttItemsTable
-          url={`http://localhost:8081/erp/regAttItems?search=${searchTerm}`}
+          url={`http://localhost:8081/main/regAttItems?search=${searchTerm}`}
           columns={columns}
         />
         <Container style={{ display: "flex", flexDirection: "row" }}>
@@ -77,6 +61,7 @@ export const RegAttItems = () => {
           </Button>
         </Container>
         <AttModal open={open} onClose={handleClose} />
+        {/* <AttModal2 open={open} onClose={handleClose} /> */}
         {/* 모달 상태와 닫기 함수를 props로 전달 */}
       </Container>
     </>

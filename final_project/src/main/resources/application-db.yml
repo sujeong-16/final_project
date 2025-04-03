@@ -4,6 +4,6 @@
 spring:
     datasource:
         driver-class-name: org.mariadb.jdbc.Driver
-        url: jdbc:mariadb://192.168.0.44:3306/yeomdb
+        url: jdbc:mariadb://192.168.0.29:3306/ordit
         username: erp_mdb
         password: ict04

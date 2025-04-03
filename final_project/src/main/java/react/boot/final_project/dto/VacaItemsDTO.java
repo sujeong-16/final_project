@@ -23,9 +23,10 @@ public class VacaItemsDTO {
 	// 휴가항목등록 dto
 	@Id
 	@Column(name="v_code")
-	private String v_code;			// 휴가코드, PK
+	private int v_code;			// 휴가코드, PK
+	private int v_listNo;		// 근태 게시글번호(자동증가)
 	private String v_name;		// 휴가명, UK
 	private String v_periode;			// 휴가 사용기간
-	private String v_use;			// 휴가 사용여부(Y/N)
+	private String v_use;			// 근태 사용여부(Y/N)
 	private String v_note;		// 비고
 }
